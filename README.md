@@ -31,7 +31,9 @@ A **Tickteira** vende ingressos para shows e eventos. O fluxo é:
 3. O PagFácil nos avisa por **webhook**.
 4. Confirmamos o pedido, emitimos os ingressos com QR code e enviamos por e-mail.
 
-O passo 2 não existe de verdade — você decide como simulá-lo (ver seção 5).
+O passo 2 **não é escopo**. Você não vai integrar com gateway nenhum: nada de criar conta
+no PagFácil (ele não existe), sandbox de gateway real, ngrok ou URL pública. Para exercitar
+o fluxo, você mesmo dispara os webhooks — ver seção 5.
 
 ---
 
@@ -123,18 +125,23 @@ Construa o que for necessário para que estas afirmações sejam verdadeiras:
 O item 8 é a parte de front-end. Escopo pequeno de propósito: funcional e honesta, não
 precisa ser bonita — precisa ser usável por quem não é dev.
 
-**Você também decide e entrega:**
+**Como você exercita esse fluxo**
 
-- Como simular o PagFácil (script, container, teste automatizado — o que fizer sentido),
-  incluindo a política de reenvio da seção 4.3.
-- Como simular o envio de e-mail (nada de SMTP real).
-- Como demonstrar que o sistema aguenta o cenário da Carla sem violar as invariantes
-  dos itens 5 e 6.
+Não existe gateway do outro lado. Quem dispara os webhooks é você, com **um script de
+payloads fixos** (ou um teste automatizado, ou um serviço simples no Compose — o formato
+é seu). Nada sofisticado: um arquivo que monta o corpo, assina com o secret e faz o POST
+no seu endpoint já resolve.
 
-Essa parte não é acessório: é como você prova que sua solução funciona, e é avaliada.
+O mesmo vale para o e-mail: use um mock, um log ou um servidor SMTP falso — nada de
+provedor real.
 
-**Não é escopo:** autenticação de usuário, integração real com gateway ou SMTP, deploy,
-CI, design system, checkout completo com carrinho.
+O que avaliamos aqui não é o capricho do script, e sim **quais cenários você escolheu
+disparar**. Rodar o caminho feliz uma vez prova pouco sobre um sistema que vai receber
+8 mil pagamentos em 5 minutos.
+
+**Não é escopo:** integração com gateway de pagamento real ou sandbox, criação de conta em
+serviço externo, URL pública/ngrok, envio de e-mail por provedor real, autenticação de
+usuário, deploy, CI, design system, checkout completo com carrinho.
 
 Sim, o escopo está descrito em termos de negócio de propósito. As decisões técnicas são
 o que estamos avaliando.
@@ -172,7 +179,7 @@ abrir três terminais ou criar banco manualmente, o requisito não foi atendido.
 ## 7. O `README.md` que você vai escrever
 
 **a) Como executar.** Do zero até o sistema rodando: variáveis de ambiente, comando,
-portas, como acessar cada serviço, como rodar os testes e como disparar sua simulação do
+portas, como acessar cada serviço, como rodar os testes e como disparar os webhooks do
 gateway. Escreva para alguém que nunca viu o projeto.
 
 **b) Tecnologias e o porquê de cada uma.** Por que RabbitMQ ou BullMQ? Qual ORM e por quê?
@@ -211,3 +218,4 @@ quê, e por quê?
   escopo com critério é parte da avaliação.
 - IA é permitida. Só não entregue nada que você não consiga defender linha a linha na
   conversa técnica — a decisão acontece lá.
+- Dúvidas sobre o enunciado: pergunte em `[e-mail/contato]`. No dia a dia você perguntaria.
