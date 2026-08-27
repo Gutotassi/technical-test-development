@@ -1,0 +1,18 @@
+# Dependências do Node (evita arquivos pesados)
+node_modules/
+**/node_modules/
+
+# Builds e artefatos de compilação
+.next/
+dist/
+build/
+target/
+*.jar
+
+# Variáveis de ambiente e arquivos locais
+.env
+.env.local
+
+# Logs e arquivos do sistema
+*.log
+.DS_Store
