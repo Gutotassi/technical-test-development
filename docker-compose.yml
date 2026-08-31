@@ -4,9 +4,9 @@ services:
     container_name: meubanco_postgres
     restart: always
     environment:
-      POSTGRES_USER: meudev
-      POSTGRES_PASSWORD: minhasenha
-      POSTGRES_DB: meudatabase
+      POSTGRES_USER: ${DB_USERNAME:-meudev}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE:-meudatabase}
     ports:
       - "5432:5432"
     volumes:
@@ -30,9 +30,10 @@ services:
     ports:
       - '3000:3000'
     environment:
-      DATABASE_URL: "postgresql://user:password@postgres:5432/tickteira_db?schema=public"
-      REDIS_HOST: "redis"
-      REDIS_PORT: 6379
+      DATABASE_URL: "postgresql://${DB_USERNAME}:${DB_PASSWORD}@postgres:5432/${DB_DATABASE}?schema=public"
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      PAGFACIL_WEBHOOK_SECRET: ${PAGFACIL_WEBHOOK_SECRET}
     depends_on:
       - postgres
       - redis

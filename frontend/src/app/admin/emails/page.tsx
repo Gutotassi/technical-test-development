@@ -23,7 +23,8 @@ export default function SuporteEmailsPage() {
   const carregarFalhas = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${API_BASE_URL}/admin/emails/falhas`);
+      setFeedback(null);
+      const res = await fetch(`${API_BASE_URL}/admin/emails`);  
       if (!res.ok) throw new Error('Erro ao buscar logs de e-mail.');
       const data = await res.json();
       setEmailsComFalha(data);
